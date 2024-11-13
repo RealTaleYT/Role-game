@@ -2,7 +2,7 @@
 
 Este es el diagrama de clases de la solución que gestiona la creación, visualización, modificación y eliminación de criaturas.
 
-![Diagrama de Clases](docs/DiagramaClase.png)
+![Diagrama de Clases](docs/ClassDiagram1.svg)
 
 ### Explicación del Diagrama
 

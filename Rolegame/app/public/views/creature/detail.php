@@ -1,4 +1,12 @@
-<?php ?>
+<?php
+require_once(dirname(__FILE__) . '\..\..\..\..\persistence\DAO\CreatureDAO.php');
+require_once(dirname(__FILE__) . '\..\..\..\models\Creature.php');
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+    $creatureDAO = new CreatureDAO();
+    $creature = $creatureDAO->selectById($id);
+}
+?>
 <!doctype html>
 <html>
     <head>
@@ -15,38 +23,48 @@
                 <a class="nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover fs-3" href="./insert.php">Crear una criatura</a>
             </div>
         </nav>
-        <form method="POST" action="">
-            <input type="hidden" name="type" value="edit">
+        <form action="../index.php">
             <div class="container">
                 <div class="d-inline">
                     <label class="form-label">Name</label>
-                    <input class="form-control" type="text" placeholder="Name" id="name" value="<?php ?>">
+                    <input class="form-control" type="text" placeholder="Name" value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getName() : "");
+                    ?>" name="name" id="name" readonly="" >
                 </div>
                 <div class="d-inline">
                     <label class="form-label">Description</label>
-                    <input class="form-control" type="text" placeholder="Description" id="description" value="<?php ?>">
+                    <input class="form-control" type="text" placeholder="Description" name="description" id="description" value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getDescription() : "");
+                    ?>" readonly="">
                 </div>
                 <div class="d-inline">
                     <label class="form-label">Avatar</label>
-                    <input class="form-control" type="text" placeholder="Avatar"id="avatar" value="<?php ?>">
+                    <input class="form-control" type="text" placeholder="Avatar" name="avatar" id="avatar" value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getAvatar() : "");
+                    ?>" readonly="">
                 </div>
                 <div class="d-inline">
                     <label class="form-label">Attack Power</label>
-                    <input class="form-control" type="number" placeholder="Attack Power" id="attackPower"value="<?php ?>">
+                    <input class="form-control" type="number" placeholder="Attack Power" name="power" id="attackPower"value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getAttackPower() : "");
+                    ?>"readonly="">
                 </div>
                 <div class="d-inline">
                     <label class="form-label">Life Level</label>
-                    <input class="form-control" type="number" placeholder="Life Level" id="lifeLevel"value="<?php ?>">
+                    <input class="form-control" type="number" placeholder="Life Level" name="life" id="lifeLevel"value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getLifeLevel() : "");
+                    ?>" readonly="">
                 </div>
                 <div class="d-inline">
                     <label class="form-label">Weapon</label>
-                    <input class="form-control" type="text" placeholder="Weapon" id="weapon"value="<?php ?>">
+                    <input class="form-control" type="text" placeholder="Weapon" name="weapon" id="weapon"value="<?php
+                    echo (isset($_GET["id"]) ? $creature->getWeapon() : "");
+                    ?>"readonly="">
                 </div>
                 <br>
-                <button class="btn btn-outline-primary" id="create">Create</button>
+                <button type="submit" class="btn btn-outline-primary">Regresar</button>
             </div>
         </form>
-        
         <br>
         <footer class="blockquote-footer">
             CopyRigth©PeterParker2015

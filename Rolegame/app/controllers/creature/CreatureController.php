@@ -1,33 +1,35 @@
 <?php
+
 require_once(dirname(__FILE__) . '/../../../persistence/DAO/CreatureDAO.php');
 require_once(dirname(__FILE__) . '/../../../app/models/Creature.php');
-require_once(dirname(__FILE__) . '/../../../utils/SessionUtils.php');
-require_once(dirname(__FILE__) . '/../../../app/models/validations/ValidationsRules.php');
+require_once(dirname(__FILE__) . '../../../models/validations/ValidationRules.php');
 
 $_creatureController = new CreatureController();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ($_POST["type"] == "create"){
+    if ($_POST["type"] == "create") {
         $_creatureController->createAction();
-    }
-    else if ($_POST["type"] == "edit"){
+    } else if ($_POST["type"] == "edit") {
         $_creatureController->editAction();
-    }
-    else if ($_POST["type"] == "apply"){
-        $_creatureController->applyAction(SessionUtils::getIdUser());
+    } else if ($_POST["type"] == "delete") {
+        $_creatureController->deleteAction();
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     $_creatureController->deleteAction();
 }
-class CreatureController{
-    
+
+class CreatureController {
+
     public function __construct() {
+        
     }
+
     function readAction() {
         $creatureDAO = new CreatureDAO();
         return $creatureDAO->selectAll();
     }
+
     function createAction() {
         $name = ValidationsRules::test_input($_POST["name"]);
         $description = ValidationsRules::test_input($_POST["description"]);
@@ -45,10 +47,12 @@ class CreatureController{
         $creatureDAO = new CreatureDAO();
         $creatureDAO->insert($creature);
 
-        header('Location: ../../../index.php');
+        header('Location: ../../public/views/index.php');
     }
-    function editAction() {  
-        $id = $_POST["idCreature"];
+
+    function editAction() {
+        $idCreature = $_POST["idCreature"];
+        $name = $_POST["name"];
         $description = $_POST["description"];
         $avatar = $_POST["avatar"];
         $power = $_POST["power"];
@@ -65,17 +69,15 @@ class CreatureController{
         $creatureDAO = new CreatureDAO();
         $creatureDAO->update($creature);
 
-        header('Location: ../../../index.php');
+        header('Location: ../../public/views/index.php');
     }
+
     function deleteAction() {
-        $id = $_GET["idCreature"];
+        $id = $_POST["idCreature"];
 
         $creatureDAO = new CreatureDAO();
         $creatureDAO->delete($id);
 
-        header('Location: ../../../index.php');
+        header('Location: ../../public/views/index.php');
     }
-    
-    
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 class ValidationsRules {
 
     public static function test_input($data) {
@@ -11,4 +12,3 @@ class ValidationsRules {
         return $data;
     }
 }
-
